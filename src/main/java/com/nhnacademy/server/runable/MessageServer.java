@@ -29,17 +29,17 @@ import java.util.Objects;
 
 @Slf4j
 public class MessageServer implements Runnable {
-    private static final int DEFAULT_PORT=8888;
+    private static final int DEFAULT_PORT = 8888;
     private final int port;
     private final ServerSocket serverSocket;
 
-    public MessageServer(){
+    public MessageServer() {
         this(DEFAULT_PORT);
     }
 
     public MessageServer(int port) {
-        if(port <= 0){
-            throw new IllegalArgumentException(String.format("port:%d",port));
+        if (port <= 0) {
+            throw new IllegalArgumentException(String.format("port:%d", port));
         }
 
         this.port = port;
@@ -53,11 +53,10 @@ public class MessageServer implements Runnable {
 
     @Override
     public void run() {
-        while(!Thread.currentThread().isInterrupted()) {
-            try(Socket client = serverSocket.accept();
-                BufferedReader clientIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                PrintWriter out = new PrintWriter(client.getOutputStream(),false);
-            ){
+        while (!Thread.currentThread().isInterrupted()) {
+            try (Socket client = serverSocket.accept();
+                    BufferedReader clientIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                    PrintWriter out = new PrintWriter(client.getOutputStream(), false);) {
                 InetAddress inetAddress = client.getInetAddress();
                 log.debug("ip:{},port:{}", inetAddress.getAddress(), client.getPort());
 
@@ -65,30 +64,30 @@ public class MessageServer implements Runnable {
 
                 while ((recvMessage = clientIn.readLine()) != null) {
                     System.out.println("[server]recv-message:" + recvMessage);
-                    //TODO#1-10 MethodParser를 이용해서 recvMessage를 파싱 합니다.
+                    // TODO#1-10 MethodParser를 이용해서 recvMessage를 파싱 합니다.
 
                     MethodParser.MethodAndValue methodAndValue = null;
 
-                    log.debug("method:{},value:{}",methodAndValue.getMethod(),methodAndValue.getValue());
+                    log.debug("method:{},value:{}", methodAndValue.getMethod(), methodAndValue.getValue());
 
-                    //TODO#1-11 ResponseFactory를 이용해서 methodAndValue.getMethod()에 해당되는 response를 얻습니다.
+                    // TODO#1-11 ResponseFactory를 이용해서 methodAndValue.getMethod()에 해당되는 response를
+                    // 얻습니다.
                     Response response = null;
 
-
                     String sendMessage;
-                    if(Objects.nonNull(response)){
-                        //TODO#1-12 methodAndValue.getValue() 이용해서 response를 실행 합니다.
+                    if (Objects.nonNull(response)) {
+                        // TODO#1-12 methodAndValue.getValue() 이용해서 response를 실행 합니다.
                         sendMessage = null;
-                    }else {
-                        //TODO#1-13 response가 null 이면 sendMessage를 "{echo} method not found" 로 설정 합니다.
-                        sendMessage="something";
+                    } else {
+                        // TODO#1-13 response가 null 이면 sendMessage를 "{echo} method not found" 로 설정 합니다.
+                        sendMessage = "something";
                     }
                     out.println(sendMessage);
                     out.flush();
                 }
-            }catch (Exception e){
-                log.debug("{}",e.getMessage(),e);
+            } catch (Exception e) {
+                log.debug("{}", e.getMessage(), e);
             }
         }
-    }//end method
+    }// end method
 }
