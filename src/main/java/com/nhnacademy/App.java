@@ -12,14 +12,24 @@
 
 package com.nhnacademy;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) {
+        String host = "localhost";
+        int port = 12345;
+        try (/* TODO: 서버와 통신을 위한 소켓을 생성합니다. 소켓이 정상적으로 생성되면, 소켓으로부터 데이터를 읽을 Scanner 객체를 생성합니다.*/) {
+
+            while (!Thread.currentThread().isInterrupted()) {
+                // TODO: Scanner를 이용해 서버에서 문자열을 받습니다.
+
+                // TODO: 표준 출력 객체를 이용해 출력합니다.
+            }
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
