@@ -16,16 +16,28 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class App {
+public class ReceiveData {
     public static void main(String[] args) {
         String host = "localhost";
         int port = 12345;
-        try (/* TODO: 서버와 통신을 위한 소켓을 생성합니다. 소켓이 정상적으로 생성되면, 소켓으로부터 데이터를 읽을 Scanner 객체를 생성합니다.*/) {
+        // TODO#1-1: 소켓을 try-with-resources로 생성합니다.
+        // TODO#1-2: 수신을 위한 Scanner을 생성합니다. Scanner에 사용할 InputStream은 소켓에서
+        // 얻어옵니다.
+        try (Socket socket = new Socket(host, port);
+                Scanner socketIn = new Scanner(socket.getInputStream())) {
+            System.out.println("메시지 수신을 위한 소켓이 연결되었습니다.");
 
             while (!Thread.currentThread().isInterrupted()) {
-                // TODO: Scanner를 이용해 서버에서 문자열을 받습니다.
-
-                // TODO: 표준 출력 객체를 이용해 출력합니다.
+                System.out.println("메시지를 기다립니다.");
+                // TODO#1-3: 소켓을 통해 문자열을 받습니다.
+                String line = socketIn.nextLine();
+                // 빈 문자열이 오면 종료합니다.
+                if (line.isEmpty()) {
+                    System.out.println("빈 메시지를 수신하여 종료합니다.");
+                    break;
+                }
+                System.out.print("메시지를 수신하였습니다: ");
+                System.out.println(line);
             }
 
         } catch (IOException e) {
