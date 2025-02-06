@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -37,7 +38,7 @@ public class EchoServer {
                 // TODO#1-2: nextLine을 이용해 문자열을 받습니다.
                 String line = socketIn.nextLine();
                 if (line.isEmpty()) {
-                    System.out.println("빈 메시지를 받았습니다. 연결을 끊고, 프로그램을 종료합니다.");
+                    System.out.println("빈 메시지를 받았습니다. 연결을 끊습니다.");
                     break;
                 }
                 System.out.print("메시지를 받았습니다: ");
@@ -46,10 +47,12 @@ public class EchoServer {
                 socketOut.println(line);
                 System.out.println("메시지를 보냈습니다.");
             }
-
+        } catch (NoSuchElementException e) {
+            System.out.println("클라이언트에서 연결을 끊었습니다.");
         } catch (IOException e) {
             System.err.println("데이터 수신중 오류가 발생하였습니다: " + e.getMessage());
         }
+        System.out.println("프로그램을 종료합니다.");
     }
 
     public static void main(String[] args) {
