@@ -38,16 +38,9 @@ public class PortScanner {
      */
     public PortScanner(String host, int startPort, int endPort) {
         // TODO#1-1: 시작과 끝을 반대로 입력한 경우, 변경해 줍니다.
-        if (startPort > endPort) {
-            int temp = startPort;
-            startPort = endPort;
-            endPort = temp;
-        }
+
         // TODO#1-2: 인수를 검증합니다. host는 null이 아니어야 하고, 포트는 1 ~ 65535내에서만 가능합니다.
         // 인수 검증을 실패한 경우, IllegalArgumentException을 발생 시킵니다.
-        if ((host == null) || (startPort < MIN_PORT) || (MAX_PORT < endPort)) {
-            throw new IllegalArgumentException();
-        }
 
         this.host = host;
         this.startPort = startPort;
@@ -70,16 +63,10 @@ public class PortScanner {
     public void scan() {
 
         // TODO#1-3: 이전에 스캔하여 찾은 목록을 삭제합니다.
-        portList.clear();
 
         for (int port = startPort; port <= endPort; port++) {
             // TODO#1-4: 소켓을 생성해 정상적으로 연결되는 경우, 포트를 저장합니다.
             try {
-                Socket socket = new Socket(host, port);
-
-                portList.add(port);
-
-                socket.close();
             } catch (IOException ignore) {
             }
         }
