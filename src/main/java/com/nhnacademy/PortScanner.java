@@ -71,12 +71,7 @@ public class PortScanner {
 
         for (int port = startPort; port <= endPort; port++) {
             try {
-                Socket socket = new Socket(host, port);
-
-                portList.add(port);
-
-                // TODO#1-1: PortScanner에서 소켓 연결 후 닫는 과정을 삭제합니다.
-                socket.close();
+                // TODO#1-1: 소켓을 생성하고, 정상적으로 생성될 경우 포트를 리스트에 추가하고 소켓을 닫지 않은 상태로 끝냅니다.
             } catch (IOException ignore) {
             }
         }
