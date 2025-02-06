@@ -10,7 +10,7 @@
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 
-package com.nhnacademy.client.runable;
+package com.nhnacademy.client.runnable;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +65,7 @@ public class MessageClient implements Runnable {
          * 하세요(System.in를 사용 하세요)
          */
         try (
-                PrintWriter out = null;
+                PrintWriter clientOut = null;
                 BufferedReader clientIn = null;
                 BufferedReader stdIn = null;) {
 
@@ -74,8 +74,8 @@ public class MessageClient implements Runnable {
 
             /*
              * TODO#2-6 while 조건을 수정하세요
-             * - stdIn.readLine() : 사용자로 부터 입력받은 값이 null 아니라면 입력받은 userMessage를 PrintWriter
-             * out을 이용해서 서버로 전송 합니다.
+             * - stdIn.readLine() : 사용자로 부터 입력받은 값이 null 아니라면 입력받은 userMessage를
+             * clientOut을 이용해서 서버로 전송 합니다.
              */
             while (true) {
 
