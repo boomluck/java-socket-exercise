@@ -98,6 +98,7 @@ public class PortScanner {
         int endPort = MAX_PORT;
 
         PortScanner portScanner = new PortScanner(host, startPort, endPort);
+        portScanner.scan();
         if (!portScanner.getPortList().isEmpty()) {
             for (Integer port : portScanner.getPortList()) {
                 System.out.printf("포트[%5d]가 열려 있습니다.%n", port);
