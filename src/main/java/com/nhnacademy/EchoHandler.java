@@ -53,11 +53,15 @@ public class EchoHandler implements Runnable {
         socketOut.close();
     }
 
-    public void send(String message) {
-        socketOut.println(message);
+    public void send(long id, String message) {
+        socketOut.printf("%d: %s%n", id, message);
     }
 
     static void broadcast(String message) {
-        handlerMap.forEach((id, handler) -> handler.send(message));
+        handlerMap.forEach((id, handler) -> {
+            if (Thread.currentThread().threadId() != id) {
+                handler.send(Thread.currentThread().threadId(), message);
+            }
+        });
     }
 }
