@@ -31,7 +31,7 @@ public class MultiConnectionServer {
                 System.out.println("클라이언트 연결을 기다립니다.");
                 Socket socket = serverSocket.accept();
                 System.out.printf("클라이언트가 연결되었습니다.%n", socket.getInetAddress().getHostAddress(), socket.getPort());
-                new Thread(new EchoHandler(socket)).start();
+                new ClientHandler(socket).start();
             }
         } catch (IOException e) {
             System.err.println("연결에 오류가 발생하였습니다: " + e.getMessage());
