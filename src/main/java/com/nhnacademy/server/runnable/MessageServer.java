@@ -32,7 +32,8 @@ public class MessageServer implements Runnable {
     }
 
     public MessageServer(int port) {
-        // TODO#1-2 port <=0 이면 IllegalArgumentException이 발생 합니다.
+        // TODO#1-2 port <0 이면 IllegalArgumentException이 발생 합니다.
+        // [참고] 소켓 바인딩(bind) 과정에서 포트번호를 0으로 설정하면, 운영체제(OS)가 자동으로 비어 있는 포트 번호를 선택해 바인딩해줍니다.
 
         // TODO#1-3 port를 초기화 합니다.
         this.port = 0;

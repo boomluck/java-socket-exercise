@@ -48,7 +48,7 @@ class MessageServerTest {
     }
 
     /**
-     * MessageServer 생성자의 port <= 0 검증 테스트입니다.
+     * MessageServer 생성자의 port < 0 검증 테스트입니다.
      */
     @Test
     @Order(1)
