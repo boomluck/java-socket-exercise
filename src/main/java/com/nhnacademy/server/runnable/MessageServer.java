@@ -82,7 +82,7 @@ public class MessageServer implements Runnable {
                  * - printWriter의 println() method를 이용해서 client에게 message를 전송 합니다.
                  */
                 while (true) {
-                    System.out.println("[server]recv-message:" + recvMessage);
+                    log.debug("[server]recv-message:{}",recvMessage);
 
                     clientOut.println(recvMessage);
                     clientOut.flush();
