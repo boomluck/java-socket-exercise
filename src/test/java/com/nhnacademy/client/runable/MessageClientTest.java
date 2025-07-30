@@ -37,7 +37,8 @@ class MessageClientTest {
     @Test
     void constructorTest(){
         Assertions.assertAll(
-                //TODO#2-9 serverAddress is null or serverPort <=0 IllegalArgumentException 발생하는지 검증 합니다.
+                //TODO#2-9 serverAddress is null or serverPort <0 IllegalArgumentException 발생하는지 검증 합니다.
+                //소켓 바인딩(bind) 과정에서 포트번호를 0으로 설정하면, 운영체제(OS)가 자동으로 비어 있는 포트 번호를 선택해 바인딩해줍니다.
 
         );
     }
