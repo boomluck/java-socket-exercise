@@ -98,7 +98,7 @@ class MessageClientTest {
 
         log.debug("print-message:{}", testOut.toString());
 
-        // TODO#2-13 client에서 "[clinet]recv-message:hello" 출력되었는지 ByteArrayOutputStream
+        // TODO#2-13 client에서 "[client]recv-message:hello" 출력되었는지 ByteArrayOutputStream
         // testOut을 이용하여 검증 합니다.
 
     }

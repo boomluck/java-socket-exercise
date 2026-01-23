@@ -79,7 +79,7 @@ public class MessageClient implements Runnable {
              */
             while (true) {
 
-                System.out.println(String.format("[clinet]recv-message:%s", clientIn.readLine()));
+                System.out.println(String.format("[client]recv-message:%s", clientIn.readLine()));
                 System.out.print("send-message:");
             }
 
