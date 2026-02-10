@@ -28,18 +28,26 @@ public class MessageServer implements Runnable {
 
     public MessageServer() {
         // TODO#1-1 기본 생성자를 초기화 합니다. port 지정이 안된다면 DEFAULT_PORT(8888)를 사용 합니다.
-        this(0);
+        this(DEFAULT_PORT);
     }
 
     public MessageServer(int port) {
         // TODO#1-2 port <0 이면 IllegalArgumentException이 발생 합니다.
         // [참고] 소켓 바인딩(bind) 과정에서 포트번호를 0으로 설정하면, 운영체제(OS)가 자동으로 비어 있는 포트 번호를 선택해 바인딩해줍니다.
+        if (port < 0) {
+            throw new IllegalArgumentException("오류 : port 번호가 음수입니다.");
+        }
 
         // TODO#1-3 port를 초기화 합니다.
-        this.port = 0;
+        this.port = port;
 
         // TODO#1-4 port를 이용해서 serverSocket을 생성 합니다.
-        serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(this.port);
+        }
+        catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override
@@ -47,9 +55,9 @@ public class MessageServer implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
 
             // TODO#1-5 client가 serverSocket에 연결될 때 까지 대기 합니다.
-            try (Socket client = null;
+            try (Socket client = serverSocket.accept();
                     // TODO#1-6 client로 부터 전달 되는 stream 데이터를 처리하기 위해서 BufferedReader를 초기화 합니다.
-                    BufferedReader clientIn = null;
+                    BufferedReader clientIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
                     /*
                      * TODO#1-7 server가 client에게 응답하기 위해서 PrintWriter를 이용해서 메시지를 전송 합니다.
@@ -58,7 +66,7 @@ public class MessageServer implements Runnable {
                      * https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/
                      * PrintWriter.html
                      */
-                    PrintWriter clientOut = null;) {
+                    PrintWriter clientOut = new PrintWriter(client.getOutputStream(), false);) {
                 /*
                  * TODO#1-8 cleint의 address(IP), PORT 를 로그로 출력 합니다.
                  * - client socket을 이용해서 inetAddress를 구합니다.
@@ -66,9 +74,9 @@ public class MessageServer implements Runnable {
                  * - client socket을 이용해서 port를 구합니다.
                  */
 
-                InetAddress inetAddress = null;
-                String address = null;
-                int port = 0;
+                InetAddress inetAddress = client.getInetAddress();
+                String address = inetAddress.getHostAddress();
+                int port = client.getPort();
                 log.debug("ip:{},port:{}", address, port);
 
                 // recvMessage는 clent가 server로 전송하는 message를 받기 위한 변수 입니다.
