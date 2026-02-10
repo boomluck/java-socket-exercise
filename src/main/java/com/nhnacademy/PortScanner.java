@@ -72,6 +72,9 @@ public class PortScanner {
         for (int port = startPort; port <= endPort; port++) {
             try {
                 // TODO#1-1: 소켓을 생성하고, 정상적으로 생성될 경우 포트를 리스트에 추가하고 소켓을 닫지 않은 상태로 끝냅니다.
+                Socket socket = new Socket(host, port);
+                portList.add(port);
+                socket.close();
             } catch (IOException ignore) {
             }
         }
