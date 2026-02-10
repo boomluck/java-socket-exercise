@@ -26,19 +26,20 @@ public class EchoHandler implements Runnable {
         handlerMap.put(Thread.currentThread().threadId(), this);
 
         // TODO#2: socket에서 데이터를 읽고 쓰기 위한 IOStream을 생성한다.
-        try (Scanner socketIn = null;
-                PrintStream socketOut = null) {
+        try (Scanner socketIn = new Scanner(socket.getInputStream());
+                PrintStream socketOut = new PrintStream(socket.getOutputStream())) {
 
             while (!Thread.currentThread().isInterrupted()) {
                 log.debug("메시지를 기다립니다.");
                 // TODO#3: socket에서 데이터를 읽어들인다.
-                String line = null;
+                String line = socketIn.nextLine();
                 if (line.isEmpty()) {
                     log.debug("빈 메시지를 받았습니다. 연결을 끊습니다.");
                     break;
                 }
                 log.debug("메시지를 받았습니다: {}", line);
                 // TODO#4: 읽어 들인 메시지를 돌려 보낸다.
+                socketOut.println(line);
                 log.debug("메시지를 보냈습니다.");
             }
         } catch (NoSuchElementException e) {

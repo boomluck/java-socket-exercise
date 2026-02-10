@@ -32,6 +32,7 @@ public class MultiConnectionServer {
                 Socket socket = serverSocket.accept();
                 System.out.printf("클라이언트가 연결되었습니다.%n", socket.getInetAddress().getHostAddress(), socket.getPort());
                 // TODO#1 : EchoHandler를 생성하여 Thread를 생성하고 실행하세요.
+                new EchoHandler(socket).start();
             }
         } catch (IOException e) {
             System.err.println("연결에 오류가 발생하였습니다: " + e.getMessage());
