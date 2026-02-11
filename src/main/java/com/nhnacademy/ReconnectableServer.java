@@ -33,8 +33,13 @@ public class ReconnectableServer {
          * TODO#1-2: 소켓에서 데이터 송수신을 위한 I/O Stream을 가져와 관련 객체를 생성하고,
          * 클라이언트와 데이터를 주고 받습니다.
          */
-        Scanner socketIn = new Scanner(socket.getInputStream());
-        PrintStream socketOut = new PrintStream(socket.getOutputStream());
+        try {
+            Scanner socketIn = new Scanner(socket.getInputStream());
+            PrintStream socketOut = new PrintStream(socket.getOutputStream());
+        }
+        catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
     public static void main(String[] args) {
@@ -48,7 +53,8 @@ public class ReconnectableServer {
                  * TODO#1-3: 클라이언트 접속을 기다리며, 접속하여 생성되는 소켓으로 메시지를 주고 받습니다.
                  * 연결이 끊어지면, 다시 접속을 기다립니다.
                  */
-
+                Socket socket = serverSocket.accept();
+                echoHandler(socket);
             }
         } catch (IOException e) {
             System.err.println("연결에 오류가 발생하였습니다: " + e.getMessage());
