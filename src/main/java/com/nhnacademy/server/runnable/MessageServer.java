@@ -68,7 +68,7 @@ public class MessageServer implements Runnable {
                      */
                     PrintWriter clientOut = new PrintWriter(client.getOutputStream(), false);) {
                 /*
-                 * TODO#1-8 cleint의 address(IP), PORT 를 로그로 출력 합니다.
+                 * TODO#1-8 client의 address(IP), PORT 를 로그로 출력 합니다.
                  * - client socket을 이용해서 inetAddress를 구합니다.
                  * - InetAddress를 이용해서 address를 구합니다.
                  * - client socket을 이용해서 port를 구합니다.
@@ -79,17 +79,17 @@ public class MessageServer implements Runnable {
                 int port = client.getPort();
                 log.debug("ip:{},port:{}", address, port);
 
-                // recvMessage는 clent가 server로 전송하는 message를 받기 위한 변수 입니다.
+                // recvMessage는 client가 server로 전송하는 message를 받기 위한 변수 입니다.
                 String recvMessage = null;
 
                 /*
-                 * TODO#1-9 (recvMessage = clientIn.readLine()) != null 아니면 즉 cleint 전송 받은
+                 * TODO#1-9 (recvMessage = clientIn.readLine()) != null 아니면 즉 client 전송 받은
                  * message null 아니면
                  * client로부터 전송 받은 recvMessage를 다시 client에게 전송 합니다.
                  * - while 조건을 수정 하세요
                  * - printWriter의 println() method를 이용해서 client에게 message를 전송 합니다.
                  */
-                while (true) {
+                while ((recvMessage = clientIn.readLine()) != null) {
                     log.debug("[server]recv-message:{}",recvMessage);
 
                     clientOut.println(recvMessage);

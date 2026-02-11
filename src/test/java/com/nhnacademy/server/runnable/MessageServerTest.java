@@ -54,8 +54,9 @@ class MessageServerTest {
     @Order(1)
     @DisplayName("constructor : port <= 0")
     void constructorTest1() {
-        // TODO#1-11 portt < 0 검증하는 코드를 작성하세요
-
+        // TODO#1-11 port < 0 검증하는 코드를 작성하세요
+        int port = -100;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new MessageServer(port));
     }
 
     /**
@@ -63,11 +64,11 @@ class MessageServerTest {
      */
     @Test
     @Order(2)
-    @DisplayName("aready used port")
+    @DisplayName("already used port")
     void constructorTest2() {
         // TODO#1-12 이미 서버는 8888 port를 사용하고 있을 때 8888포트로 서버를 시작한다면 RuntimeException
         // 발생하는지 검증 합니다.
-
+        Assertions.assertThrows(RuntimeException.class, () -> new MessageServer(8888));
     }
 
     /**
@@ -84,7 +85,7 @@ class MessageServerTest {
          * - host : localhost
          * - port : 8888
          */
-        Socket client = null;
+        Socket client = new Socket("localhost", 8888);
 
         /*
          * TODO#1-14 간단한 test client 구현
@@ -92,26 +93,35 @@ class MessageServerTest {
          * - server가 전송하는 데이터를 받기 위해서 BufferedReader 객체를 초기화 합니다.
          */
 
-        try (PrintWriter clientOut = null;
-                BufferedReader clientIn = null;) {
+        try (PrintWriter clientOut = new PrintWriter(client.getOutputStream(), true);
+                BufferedReader clientIn = new BufferedReader(new InputStreamReader(client.getInputStream()));) {
             Assertions.assertAll(
                     () -> {
                         String message = "hello";
                         clientOut.println(message);
                         String actual = clientIn.readLine();
                         log.debug("actual:{}", actual);
-                        Assertions.assertEquals(message, actual);
+//                        log.debug("length={}", actual.length());
+//                        for (int i = 0; i < actual.length(); i++) {
+//                            log.debug("char[{}]=U+{}", i,
+//                                    String.format("%04X", (int) actual.charAt(i)));
+//                        }
+                        Assertions.assertEquals(message, actual); // Assertions.asssertEquals("hello", actual)은 통과가 안 되길래 AI로부터 위 로그 제안 받음
                     },
                     () -> {
                         // TODO#1-15 client가 server로 'java' message를 전송할 때 server가 client가 전송한 message를
                         // 응답하는지 검증하는 코드를 작성하세요
                         String message = "java";
-
+                        clientOut.println(message);
+                        String actual = clientIn.readLine();
+                        Assertions.assertEquals("java", actual.trim());
                     },
                     () -> {
                         // TODO#1-16 '엔에이치엔아카데미' 검증하는 코드를 작성 하세요
                         String message = "엔에이치엔아카데미";
-
+                        clientOut.println(message);
+                        String actual = clientIn.readLine();
+                        Assertions.assertEquals(message, actual);
                     });
         }
     }
@@ -122,7 +132,7 @@ class MessageServerTest {
     @AfterAll
     static void tearDown() {
         // TODO#1-17 모든 테스트가 종료되면 server를 구동하고있는 thread에 interrupt()를 발생시켜 종료 합니다.
-
+        thread.interrupt();
     }
 
 }

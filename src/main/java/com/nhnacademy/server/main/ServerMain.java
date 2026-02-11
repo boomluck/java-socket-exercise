@@ -22,7 +22,8 @@ import com.nhnacademy.server.runnable.MessageServer;
 public class ServerMain {
     public static void main(String[] args) throws IOException {
         // TODO#1-10 MessageServer 객체를 생성하고, 스레드를 이용해 동작시킵니다.
-        MessageServer messageServer = null;
-        Thread thread = null;
+        MessageServer messageServer = new MessageServer();
+        Thread thread = new Thread(messageServer);
+        thread.start();
     }
 }
