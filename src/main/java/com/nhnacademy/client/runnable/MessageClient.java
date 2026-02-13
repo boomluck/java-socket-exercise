@@ -81,6 +81,7 @@ public class MessageClient implements Runnable {
              */
             while ((userMessage = stdIn.readLine()) != null) {
                 clientOut.println(userMessage);
+                clientOut.flush(); // 혹시 flush가 안 켜져 있을지도 모르니까
                 System.out.println(String.format("[client]recv-message:%s", clientIn.readLine()));
                 System.out.print("send-message:");
             }
