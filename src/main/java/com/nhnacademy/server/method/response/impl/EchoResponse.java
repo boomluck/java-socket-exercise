@@ -22,7 +22,7 @@ public class EchoResponse implements Response {
     @Override
     public String getMethod() {
         // TODO#1-5 EchoResponse의 METHOD 를 반환 합니다.
-        return METHOD;
+        return METHOD; // 이걸 왜 반환하는지는 나중에 Factory 부분으로 들어가면 알게 된다고
     }
 
     @Override
