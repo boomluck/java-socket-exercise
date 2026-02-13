@@ -35,7 +35,8 @@ class MethodParserTest {
         log.debug("message:{},method:{},value:{}", message, method, value);
         Assertions.assertAll(
         // TODO#1-14 위 로그를 참고하여 method, value를 검증하는 코드를 작성하세요
-
+                () -> assertEquals(method, methodAndValue.getMethod()),
+                () -> assertEquals(value, methodAndValue.getValue())
         );
     }
 

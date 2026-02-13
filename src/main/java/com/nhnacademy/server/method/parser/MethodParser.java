@@ -27,15 +27,16 @@ public class MethodParser {
          * - message "" or null 이면 null을 반환 합니다.
          * - 파싱한 결과는 MethodAndValue로 반환 합니다.
          */
-        String[] words;
-
-        words = message.split(" ");
-
-        if (StringUtils.isEmpty(words[1])) {
+        if (StringUtils.isEmpty(message) || StringUtils.isEmpty(message.trim())) {
             return null;
         }
 
-        return new MethodAndValue(words[0], words[1]);
+        String[] words = message.split(" ");
+
+        String method = words[0];
+        String value = (words.length > 1) ? words[1] : "";
+
+        return new MethodAndValue(method, value);
     }
 
     public static class MethodAndValue {

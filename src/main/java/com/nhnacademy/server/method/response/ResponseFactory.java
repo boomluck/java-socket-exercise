@@ -22,8 +22,7 @@ public class ResponseFactory {
     private static final ArrayList<Response> responseList = new ArrayList<>() {
         {
             // TODO#1-8 EchoResponse 객체를 성성해서 추가 합니다.
-            EchoResponse echoResponse = new EchoResponse();
-            responseList.add(echoResponse);
+            add(new EchoResponse());
         }
     };
 
