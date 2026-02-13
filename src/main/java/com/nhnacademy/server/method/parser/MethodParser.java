@@ -27,8 +27,15 @@ public class MethodParser {
          * - message "" or null 이면 null을 반환 합니다.
          * - 파싱한 결과는 MethodAndValue로 반환 합니다.
          */
+        String[] words;
 
-        return null;
+        words = message.split(" ");
+
+        if (StringUtils.isEmpty(words[1])) {
+            return null;
+        }
+
+        return new MethodAndValue(words[0], words[1]);
     }
 
     public static class MethodAndValue {
@@ -37,18 +44,18 @@ public class MethodParser {
 
         public MethodAndValue(String method, String value) {
             // TODO#1-2 초기화 합니다.
-            this.method = null;
-            this.value = null;
+            this.method = method;
+            this.value = value;
         }
 
         public String getMethod() {
             // TODO#1-3 method 반환 하빈다.
-            return null;
+            return method;
         }
 
         public String getValue() {
             // TODO#1-4 value 반환 하빈다.
-            return null;
+            return value;
         }
     }
 }
