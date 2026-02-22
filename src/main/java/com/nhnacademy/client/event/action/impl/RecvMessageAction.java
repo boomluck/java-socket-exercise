@@ -20,7 +20,7 @@ public class RecvMessageAction implements MessageAction {
 
     public RecvMessageAction(MessageClientForm messageClientForm) {
         //TODO#2-10 messageClientForm을 초기화 합니다. messageClientForm은 메시지 전송/수신 UI를 담당 합니다.
-        this.messageClientForm = null;
+        this.messageClientForm = messageClientForm;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RecvMessageAction implements MessageAction {
             - messageClientForm.getMessageArea()에 message를 추가 합니다.
             - message 추가 후 개행 문자를 추가로 삽입 합니다.
          */
-        messageClientForm.getMessageArea().append(null);
-        messageClientForm.getMessageArea().append(null);
+        messageClientForm.getMessageArea().append(message);
+        messageClientForm.getMessageArea().append("\n");
     }
 }

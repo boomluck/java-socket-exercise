@@ -55,10 +55,10 @@ public class MessageClient implements Runnable {
         subject = new MessageSubject();
 
         try {
-            clientSocket = new Socket(this.serverAddress,this.serverPort);
+            clientSocket = new Socket(this.serverAddress, this.serverPort);
 
             if(clientSocket.isConnected()){
-                log.debug("client connect!");
+                log.debug("client connected!");
                 startReceivedMessageClient();
             }
         } catch (IOException e) {
@@ -72,8 +72,9 @@ public class MessageClient implements Runnable {
             - 즉 message의 수신과 송신을 비동기 적으로 처리하기 위함.
             - 지금 까지는 client -> message를 server에 전송 server는 client에게 응답하는 방식. 즉 동기방식
          */
-        ReceivedMessageClient receivedMessageClient = null;
-        Thread thread = null;
+        ReceivedMessageClient receivedMessageClient = new ReceivedMessageClient(clientSocket, subject);
+        Thread thread = new Thread(receivedMessageClient);
+        thread.start();
 
     }
 
@@ -83,18 +84,18 @@ public class MessageClient implements Runnable {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
         ){
             //TODO#2-7 송신 관련해서 Observer를 설정 합니다. configSendObserver()를 호출하세요
-
+            configSendObserver(out);
 
             //TODO#2-9 MessageClientForm는 message 송신과 수신을 담당하는 UI 역할을 합니다.  MessageClientForm.showUI()호출해서 UI를 rendering 합니다.
-
+            MessageClientForm.showUI(subject);
 
             while (!Thread.currentThread().isInterrupted()){
                 Thread.sleep(1000);
             }
 
         }catch (Exception e){
-            log.debug("message:{}",e.getMessage(),e);
-            log.debug("client close");
+            log.debug("message : {}", e.getMessage(), e);
+            log.debug("client closed");
         }finally {
             if(Objects.nonNull(clientSocket)) {
                 try {
@@ -112,9 +113,9 @@ public class MessageClient implements Runnable {
             //sendMessageAction은 송신 event 발생시 MessageSendObserver Observer에 의해서 실제 송신을 당당하는 객체 입니다.
 
             //TODO#2-8 observer를 관리하는 subject에 observer를 등록 합니다. eventType : EventType.SEND
-            sendMessageAction = null;
-            Observer observer = null;
-            subject.register(EventType.SEND,observer);
+            sendMessageAction = new SendMessageAction(printWriter); // 답안 참고함
+            Observer observer = new MessageSendObserver(sendMessageAction); // 답안 참고함
+            subject.register(EventType.SEND, observer);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
